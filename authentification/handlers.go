@@ -57,20 +57,20 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create a new random session token
-	sessionToken := uuid.NewString()
+	sessionTokens := uuid.NewString()
 	expiresAt := time.Now().Add(120 * time.Second)
 
 	// Set the token in the session map, along with the user whom it represents
-	sessions[sessionToken] = session{
+	sessions[sessionTokens] = session{
 		username: creds.Username,
 		expiry:   expiresAt,
 	}
 
 	// Finally, we set the client cookie for "session_token" as the session token we just generated
-	// we also set an expiry time of 120 seconds
+	// we also set an expiry time of 120 seconds !
 	http.SetCookie(w, &http.Cookie{
 		Name:    "session_token",
-		Value:   sessionToken,
+		Value:   sessionTokens,
 		Expires: expiresAt,
 	})
 }
@@ -88,17 +88,17 @@ func Welcome(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	sessionToken := c.Value
+	sessionTokens := c.Value
 
 	// We then get the name of the user from our session map, where we set the session token
-	userSession, exists := sessions[sessionToken]
+	userSession, exists := sessions[sessionTokens]
 	if !exists {
 		// If the session token is not present in session map, return an unauthorized error
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 	if userSession.isExpired() {
-		delete(sessions, sessionToken)
+		delete(sessions, sessionTokens)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
@@ -117,37 +117,37 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	sessionToken := c.Value
+	sessionTokens := c.Value
 
-	userSession, exists := sessions[sessionToken]
+	userSession, exists := sessions[sessionTokens]
 	if !exists {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 	if userSession.isExpired() {
-		delete(sessions, sessionToken)
+		delete(sessions, sessionTokens)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 	// (END) The code until this point is the same as the first part of the `Welcome` route
 
 	// If the previous session is valid, create a new session token for the current user
-	newSessionToken := uuid.NewString()
+	newSessionTokens := uuid.NewString()
 	expiresAt := time.Now().Add(120 * time.Second)
 
 	// Set the token in the session map, along with the user whom it represents
-	sessions[newSessionToken] = session{
+	sessions[newSessionTokens] = session{
 		username: userSession.username,
 		expiry:   expiresAt,
 	}
 
 	// Delete the older session token
-	delete(sessions, sessionToken)
+	delete(sessions, sessionTokens)
 
 	// Set the new token as the users `session_token` cookie
 	http.SetCookie(w, &http.Cookie{
 		Name:    "session_token",
-		Value:   newSessionToken,
+		Value:   newSessionTokens,
 		Expires: time.Now().Add(120 * time.Second),
 	})
 }
@@ -164,10 +164,10 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	sessionToken := c.Value
+	sessionTokens := c.Value
 
 	// remove the users session from the session map
-	delete(sessions, sessionToken)
+	delete(sessions, sessionTokens)
 
 	// We need to let the client know that the cookie is expired
 	// In the response, we set the session token to an empty
