@@ -15,34 +15,34 @@ import (
 type Fishes map[string]Fish
 
 type Fish struct {
-	ID             int64        `json:"id"`
-	FileName       string       `json:"file-name"`
-	Name           Name         `json:"name"`
-	Availability   Availability `json:"availability"`
-	Shadow         string       `json:"shadow"`
-	Price          int64        `json:"price"`
-	PriceCj        int64        `json:"price-cj"`
-	CatchPhrase    string       `json:"catch-phrase"`
-	MuseumPhrase   string       `json:"museum-phrase"`
-	ImageURI       string       `json:"image_uri"`
-	IconURI        string       `json:"icon_uri"`
-	AltCatchPhrase []string     `json:"alt-catch-phrase,omitempty"`
+	ID             int64            `json:"id"`
+	FileName       string           `json:"file-name"`
+	Name           NameFish         `json:"name"`
+	Availability   AvailabilityFish `json:"availability"`
+	Shadow         string           `json:"shadow"`
+	Price          int64            `json:"price"`
+	PriceCj        int64            `json:"price-cj"`
+	CatchPhrase    string           `json:"catch-phrase"`
+	MuseumPhrase   string           `json:"museum-phrase"`
+	ImageURI       string           `json:"image_uri"`
+	IconURI        string           `json:"icon_uri"`
+	AltCatchPhrase []string         `json:"alt-catch-phrase,omitempty"`
 }
 
-type Availability struct {
-	MonthNorthern      string   `json:"month-northern"`
-	MonthSouthern      string   `json:"month-southern"`
-	Time               Time     `json:"time"`
-	IsAllDay           bool     `json:"isAllDay"`
-	IsAllYear          bool     `json:"isAllYear"`
-	Location           Location `json:"location"`
-	Rarity             Rarity   `json:"rarity"`
-	MonthArrayNorthern []int64  `json:"month-array-northern"`
-	MonthArraySouthern []int64  `json:"month-array-southern"`
-	TimeArray          []int64  `json:"time-array"`
+type AvailabilityFish struct {
+	MonthNorthern      string       `json:"month-northern"`
+	MonthSouthern      string       `json:"month-southern"`
+	Time               TimeFish     `json:"time"`
+	IsAllDay           bool         `json:"isAllDay"`
+	IsAllYear          bool         `json:"isAllYear"`
+	Location           LocationFish `json:"location"`
+	Rarity             RarityFish   `json:"rarity"`
+	MonthArrayNorthern []int64      `json:"month-array-northern"`
+	MonthArraySouthern []int64      `json:"month-array-southern"`
+	TimeArray          []int64      `json:"time-array"`
 }
 
-type Name struct {
+type NameFish struct {
 	NameUSen string `json:"name-USen"`
 	NameEUen string `json:"name-EUen"`
 	NameEUde string `json:"name-EUde"`
@@ -59,37 +59,37 @@ type Name struct {
 	NameEUru string `json:"name-EUru"`
 }
 
-type Location string
+type LocationFish string
 
 const (
-	Pier                    Location = "Pier"
-	Pond                    Location = "Pond"
-	River                   Location = "River"
-	RiverClifftop           Location = "River (Clifftop)"
-	RiverClifftopPond       Location = "River (Clifftop) & Pond"
-	RiverMouth              Location = "River (Mouth)"
-	Sea                     Location = "Sea"
-	SeaWhenRainingOrSnowing Location = "Sea (when raining or snowing)"
+	Pier                    LocationFish = "Pier"
+	Pond                    LocationFish = "Pond"
+	River                   LocationFish = "River"
+	RiverClifftop           LocationFish = "River (Clifftop)"
+	RiverClifftopPond       LocationFish = "River (Clifftop) & Pond"
+	RiverMouth              LocationFish = "River (Mouth)"
+	Sea                     LocationFish = "Sea"
+	SeaWhenRainingOrSnowing LocationFish = "Sea (when raining or snowing)"
 )
 
-type Rarity string
+type RarityFish string
 
 const (
-	Common    Rarity = "Common"
-	Rare      Rarity = "Rare"
-	UltraRare Rarity = "Ultra-rare"
-	Uncommon  Rarity = "Uncommon"
+	CommonFish    RarityFish = "Common"
+	RareFish      RarityFish = "Rare"
+	UltraRareFish RarityFish = "Ultra-rare"
+	UncommonFish  RarityFish = "Uncommon"
 )
 
-type Time string
+type TimeFish string
 
 const (
-	Empty           Time = ""
-	The4Am9Pm       Time = "4am - 9pm"
-	The4Pm9Am       Time = "4pm - 9am"
-	The9Am4Pm       Time = "9am - 4pm"
-	The9Am4Pm9Pm4Am Time = "9am - 4pm & 9pm - 4am"
-	The9Pm4Am       Time = "9pm - 4am"
+	Empty           TimeFish = ""
+	The4Am9Pm       TimeFish = "4am - 9pm"
+	The4Pm9Am       TimeFish = "4pm - 9am"
+	The9Am4Pm       TimeFish = "9am - 4pm"
+	The9Am4Pm9Pm4Am TimeFish = "9am - 4pm & 9pm - 4am"
+	The9Pm4Am       TimeFish = "9pm - 4am"
 )
 
 // routers

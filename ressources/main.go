@@ -14,6 +14,7 @@ func main() {
 	// all endpoints
 	router.HandleFunc("/", welcomeToAnimalPocketApi)
 	router.HandleFunc("/fish/{id}", getOneFishById).Methods("GET")
+	router.HandleFunc("/bug/{id}", getOneBugById).Methods("GET")
 
 	// start the server on port 8080
 	log.Fatal(http.ListenAndServe(":8080", router))
